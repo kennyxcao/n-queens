@@ -20,18 +20,16 @@ window.findNRooksSolution = function(n) {
   var count = 0;
   var solution = [];
 
-  for (var r = 0; r < n; r++) {
-    for (var c = 0; c < n; c++) {
+  for (var r = 0, c = 0; r < n && c < n; r++, c++) {
+    board.togglePiece(r, c);
+    if (board.hasRowConflictAt(r) || board.hasColConflictAt(c)) {
       board.togglePiece(r, c);
-      if (board.hasRowConflictAt(r) || board.hasColConflictAt(c)) {
-        board.togglePiece(r, c);
-      } else {
-        count++;
-      }
-      if (count === n) {
-        solution = board.rows();
-        break;
-      }
+    } else {
+      count++;
+    }
+    if (count === n) {
+      solution = board.rows();
+      break;
     }
   }
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
