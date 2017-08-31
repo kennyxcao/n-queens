@@ -16,7 +16,25 @@
 
 
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
+  var board = new Board({n: n});
+  var count = 0;
+  var solution = null;
+
+  for (var r = 0; r < n; r++) {
+    for (var c = 0; c < n; c++) {
+      board.get(r)[c] = 1;
+      if (board.hasRowConflictAt(r) || board.hasColConflictAt(c)) {
+        board.get(r)[c] = 0;
+      } else {
+        count++;
+      }
+      if (count === n) {
+        solution = board.rows();
+        break;
+      }
+    }
+  }
+  // var solution = undefined; //fixme
 
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
@@ -44,4 +62,12 @@ window.countNQueensSolutions = function(n) {
 
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
+};
+
+var makeEmptyMatrix = function(n) {
+  return _(_.range(n)).map(function() {
+    return _(_.range(n)).map(function() {
+      return 0;
+    });
+  });
 };
